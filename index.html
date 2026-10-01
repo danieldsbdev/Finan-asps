@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finanças Pro | Glass Edition</title>
+    <!-- Importando Fontes e Ícones -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --success-color: #00ff88;
+            --danger-color: #ff4b2b;
+            --text-color: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--primary-gradient);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            letter-spacing: 1px;
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
+        }
+
+        /* Dashboard de Saldos */
+        .balance-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .main-balance {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .main-balance h3 {
+            font-weight: 300;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .main-balance p {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .sub-balances {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .sub-card {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sub-card i {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .income-text { color: var(--success-color); }
+        .expense-text { color: var(--danger-color); }
+
+        /* Formulário */
+        .form-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .form-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.7);
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            background: rgba(255,255,255,0.2);
+            border-color: white;
+            box-shadow: 0 0 15px rgba(255,255,255,0.2);
+        }
+
+        input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        button.btn-add {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: white;
+            color: #764ba2;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button.btn-add:hover {
+            background: #f0f0f0;
+            transform: scale(1.02);
+        }
+
+        button.btn-add:active {
+            transform: scale(0.98);
+        }
+
+        /* Histórico */
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 0 10px;
+        }
+
+        .transaction-list {
+            list-style: none;
+        }
+
+        .transaction-item {
+            background: rgba(255, 255, 255, 0.1);
+            margin-bottom: 12px;
+            padding: 15px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 6px solid transparent;
+            animation: slideIn 0.4s ease forwards;
+            transition: all 0.3s ease;
+        }
+
+        .transaction-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .transaction-item.plus { border-left-color: var(--success-color); }
+        .transaction-item.minus { border-left-color: var(--danger-color); }
+
+        .transaction-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .transaction-info strong {
+            font-size: 1rem;
+        }
+
+        .transaction-info span {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .delete-btn {
+            background: rgba(255, 75, 43, 0.3);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .delete-btn:hover {
+            background: var(--danger-color);
+            transform: rotate(90deg);
+        }
+
+        /* Animações Customizadas */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @media (max-width: 400px) {
+            .sub-balances {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="animate__animated animate__fadeInDown">💎 Finanças Pro</h1>
+
+        <!-- Dashboard -->
+        <div class="balance-grid">
+            <div class="glass-card main-balance animate__animated animate__zoomIn">
+                <h3>Saldo Disponível</h3>
+                <p id="balance">R$ 0,00</p>
+            </div>
+            
+            <div class="sub-balances">
+                <div class="glass-card sub-card animate__animated animate__zoomIn" style="animation-delay: 0.1s">
+                    <i class="fas fa-arrow-trend-up income-text"></i>
+                    <h3>Receitas</h3>
+                    <p id="money-plus" class="income-text">R$ 0,00</p>
+                </div>
+                <div class="glass-card sub-card animate__animated animate__zoomIn" style="animation-delay: 0.2s">
+                    <i class="fas fa-arrow-trend-down expense-text"></i>
+                    <h3>Despesas</h3>
+                    <p id="money-minus" class="expense-text">R$ 0,00</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulário -->
+        <div class="glass-card animate__animated animate__fadeInUp" style="animation-delay: 0.3s">
+            <div class="form-group">
+                <i class="fas fa-pen"></i>
+                <input type="text" id="text" placeholder="Descrição da transação...">
+            </div>
+            <div class="form-group">
+                <i class="fas fa-money-bill-wave"></i>
+                <input type="number" id="amount" step="0.01" placeholder="Valor (Use - para despesas)">
+            </div>
+            <button class="btn-add" onclick="addTransaction()">
+                <i class="fas fa-plus-circle"></i> Adicionar Registro
+            </button>
+        </div>
+
+        <!-- Histórico -->
+        <div class="history-section animate__animated animate__fadeInUp" style="animation-delay: 0.4s">
+            <div class="history-header">
+                <h2>Histórico</h2>
+                <i class="fas fa-clock-rotate-left"></i>
+            </div>
+            <ul id="transactions" class="transaction-list">
+                <!-- Transações injetadas via JS -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const balanceEl = document.getElementById('balance');
+        const moneyPlusEl = document.getElementById('money-plus');
+        const moneyMinusEl = document.getElementById('money-minus');
+        const listEl = document.getElementById('transactions');
+        const textInput = document.getElementById('text');
+        const amountInput = document.getElementById('amount');
+
+        const localStorageTransactions = JSON.parse(localStorage.getItem('transactions'));
+        let transactions = localStorage.getItem('transactions') !== null ? localStorageTransactions : [];
+
+        function addTransaction() {
+            if (textInput.value.trim() === '' || amountInput.value.trim() === '') {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+
+            const transaction = {
+                id: generateID(),
+                text: textInput.value,
+                amount: parseFloat(amountInput.value)
+            };
+
+            transactions.push(transaction);
+            addTransactionDOM(transaction);
+            updateValues();
+            updateLocalStorage();
+
+            textInput.value = '';
+            amountInput.value = '';
+        }
+
+        function generateID() {
+            return Math.floor(Math.random() * 100000000);
+        }
+
+        function addTransactionDOM(transaction) {
+            const sign = transaction.amount < 0 ? '-' : '+';
+            const item = document.createElement('li');
+
+            item.classList.add('transaction-item');
+            item.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
+
+            item.innerHTML = `
+                <div class="transaction-info">
+                    <strong>${transaction.text}</strong>
+                    <span>${sign} R$ ${Math.abs(transaction.amount).toFixed(2)}</span>
+                </div>
+                <button class="delete-btn" onclick="removeTransaction(${transaction.id})">
+                    <i class="fas fa-trash-can"></i>
+                </button>
+            `;
+
+            listEl.appendChild(item);
+        }
+
+        function updateValues() {
+            const amounts = transactions.map(t => t.amount);
+            
+            const total = amounts.reduce((acc, item) => (acc += item), 0).toFixed(2);
+            const income = amounts
+                .filter(item => item > 0)
+                .reduce((acc, item) => (acc += item), 0)
+                .toFixed(2);
+            const expense = (amounts
+                .filter(item => item < 0)
+                .reduce((acc, item) => (acc += item), 0) * -1)
+                .toFixed(2);
+
+            // Animação simples de atualização de números
+            animateValue(balanceEl, total);
+            moneyPlusEl.innerText = `R$ ${income}`;
+            moneyMinusEl.innerText = `R$ ${expense}`;
+        }
+
+        // Função para animar a transição do saldo
+        function animateValue(obj, value) {
+            obj.innerText = `R$ ${value}`;
+            obj.classList.add('animate__animated', 'animate__pulse');
+            setTimeout(() => obj.classList.remove('animate__animated', 'animate__pulse'), 500);
+        }
+
+        function removeTransaction(id) {
+            const element = document.querySelector(`[onclick="removeTransaction(${id})"]`).parentElement;
+            element.style.transform = "translateX(50px)";
+            element.style.opacity = "0";
+            
+            setTimeout(() => {
+                transactions = transactions.filter(t => t.id !== id);
+                updateLocalStorage();
+                init();
+            }, 300);
+        }
+
+        function updateLocalStorage() {
+            localStorage.setItem('transactions', JSON.stringify(transactions));
+        }
+
+        function init() {
+            listEl.innerHTML = '';
+            transactions.forEach(addTransactionDOM);
+            updateValues();
+        }
+
+        init();
+    </script>
+</body>
+</html>
